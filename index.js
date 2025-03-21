@@ -9,10 +9,15 @@ const { Boom } = require('@hapi/boom');
 const pino = require('pino');
 const { serialize } = require('./lib/serialize');
 const fs = require('fs');
+const { MakeSession } = require("./lib/session");
 const path = require('path');
 
+
+if (!fs.existsSync("./multi_auth_state/creds.json")) {
+    MakeSession(config.session_id, "./multi_auth_state/creds.json");
+}
 async function startBot() {
-    const { state, saveCreds } = await useMultiFileAuthState('auth');
+    const { state, saveCreds } = await useMultiFileAuthState(`./multi_auth_state/`);
     const conn = makeWASocket({
         printQRInTerminal: false,
         auth: state,
