@@ -3,6 +3,7 @@ const {
     default: makeWASocket,
     useMultiFileAuthState,
     DisconnectReason,
+    Browsers
 } = require('@whiskeysockets/baileys');
 const { Boom } = require('@hapi/boom');
 const pino = require('pino');
@@ -12,11 +13,15 @@ const path = require('path');
 
 async function startBot() {
     const { state, saveCreds } = await useMultiFileAuthState('auth');
-    
     const conn = makeWASocket({
-        printQRInTerminal: true,
+        printQRInTerminal: false,
         auth: state,
-        logger: pino({ level: 'silent' })
+        logger: pino({ level: 'silent' }),
+        browser: Browsers.macOS("Chrome"),
+        downloadHistory: false,
+        syncFullHistory: false,
+        markOnlineOnConnect: false, 
+        generateHighQualityLinkPreview: true
     });
 
     conn.ev.on('connection.update', async (update) => {
