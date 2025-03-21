@@ -8,11 +8,10 @@ Command({
     desc: 'Display command list'
 })(async (msg, args, sock) => {
     const commands = getAllCommands();
-    const categories = {};
-    
+    const c = {};   
     commands.forEach(cmd => {
-        if (!categories[cmd.category]) categories[cmd.category] = [];
-        categories[cmd.category].push(cmd);
+        if (!c[cmd.category]) c[cmd.category] = [];
+        c[cmd.category].push(cmd);
     });
 
     const emojis = {
@@ -30,7 +29,7 @@ Command({
     menu += `┃ 📟 *Prefix:* [ ${config.prefix.source.replace(/[\^$]/g, '')} ]\n`;
     menu += `╰━━━━━━━━━━━━━━⊱\n\n`;
 
-    Object.entries(categories)
+    Object.entries(c)
         .sort(([a], [b]) => a.localeCompare(b))
         .forEach(([category, cmds]) => {
             const icon = emojis[category] || '📌';
