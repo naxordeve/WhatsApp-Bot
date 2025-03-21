@@ -14,7 +14,7 @@ const config = require('./config');
 const { getCommand } = require('./lib/commands');
 const { plugins } = require('./WAclient/commands'); 
 
-const sessionDir= path.join(__dirname, "multi_auth_state");
+const sessionDir= path.join(__dirname, "lib", "auth");
 if (!fs.existsSync(sessionDir)) {
 fs.mkdirSync(sessionDir, { recursive: true });}
 var { session_id } = config;
