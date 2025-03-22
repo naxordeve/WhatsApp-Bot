@@ -1,3 +1,4 @@
+
 const { Command } = require('../../lib/command');
 const { createSticker } = require('../../lib/Functions');
 
@@ -8,7 +9,7 @@ Command({
 })
 (async ({ msg, client }) => {
     const quoted = msg.quoted ? msg.quoted : msg;
-    const mime = quoted.mime || '';
+    const mime = quoted.type || '';
 
     if (!/image|video/.test(mime)) {
         return msg.reply('Reply to an image or video to convert it to sticker');
@@ -16,9 +17,13 @@ Command({
 
     try {
         msg.reply('Creating sticker...');
-        const media = await quoted.download();
-        const sticker = await createSticker(media, mime);
-        await client.sendMessage(msg.chat, { sticker });
+        const mediaData = await quoted.download();
+        let buffer = Buffer.from([]);
+        for await (const chunk of mediaData) {
+            buffer = Buffer.concat([buffer, chunk]);
+        }
+        const sticker = await createSticker(buffer, mime);
+        await msg.send({ sticker });
     } catch (error) {
         console.error('Sticker creation error:', error);
         msg.reply('Failed to create sticker');
