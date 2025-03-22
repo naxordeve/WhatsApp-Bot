@@ -46,4 +46,22 @@ Command({
     menu += `\n${config.footer}`;
     await msg.reply(menu);
 });
-      
+
+
+
+Command({
+    cmd_name: 'alive',
+    category: 'core',
+    desc: 'Check if bot is running',
+})(async(msg) => {
+        const uptime = process.uptime();
+        const h = Math.floor(uptime / 3600);
+        const m = Math.floor((uptime % 3600) / 60);
+        const sec = Math.floor(uptime % 60);
+        var voidi = `*WhatsApp-Bot is alive*\n\n` +
+            `*Uptime:* ${h}h ${m}m ${sec}s\n` +
+            `*Platform:* ${process.platform}\n` +
+            `*Node Version:* ${process.version}`;
+            
+        await msg.reply(voidi);
+    });
