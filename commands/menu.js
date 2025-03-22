@@ -33,17 +33,15 @@ Command({
         .sort(([a], [b]) => a.localeCompare(b))
         .forEach(([category, cmds]) => {
             const icon = emojis[category] || '📌';
-            menu += `╭━━━ ${icon} *${category.toUpperCase()}* ━⊱\n`;
-            
+            menu += `╭───╼【 ${icon} *${category.toUpperCase()}* 】 \n`;
             cmds.sort((a, b) => a.cmd_name.localeCompare(b.cmd_name))
                 .forEach(cmd => {
-                    menu += `┃ ⌁ ${cmd.cmd_name}\n`;
-                    menu += `┃ └ ${cmd.desc}\n`;
+                    menu += `┃ ${cmd.cmd_name}\n`;
                 });
             
-            menu += `╰━━━━━━━━━━━⊱\n`;
+            menu += `╰──────────╼\n`;
         });
 
-    menu += `\n┏━━━━『 ${config.footer} 』━━━━┓`;
+    menu += `\n${config.footer}`;
     await msg.reply(menu);
 });
