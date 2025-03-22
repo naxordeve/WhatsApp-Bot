@@ -1,15 +1,15 @@
-const { Command, getAllCommands } = require('../lib/command');
-const config = require('../lib/config');
+const { Command, getAllCommands } = require('../../lib/command');
+const config = require('../../config');
 const os = require('os');
 const moment = require('moment-timezone');
-const { getSystemList } = require('../lib/system');
-const { monospace } = require('../lib/utils'); 
+const { getSystemList } = require('../../lib/systemm');
+const { monospace } = require('../../lib/Functions'); 
 
 Command({
     cmd_name: 'menu',
     category: 'core',
     desc: 'Display command list'
-})(async (msg, args, sock) => {
+})(async (msg, args, conn) => {
     const commands = getAllCommands();
     const c = {};   
     commands.forEach(cmd => {
