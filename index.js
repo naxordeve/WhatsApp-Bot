@@ -51,6 +51,17 @@ async function startBot() {
     conn.ev.on('messages.upsert', async (m) => {
         const msg = await serialize(conn, m.messages[0]);
         const { prefix } = config;
+
+        // Message event handlers
+        const msgHandlers = getCommand('text');
+        if (msgHandlers) {
+            try {
+                await msgHandlers.callback(msg, conn);
+            } catch (err) {
+                console.error('Message handler error:', err);
+            }
+        }
+
         if (msg.body && msg.body.startsWith('$')) {
             if (msg.fromMe || msg.sender.split('@')[0] === config.owner_num || config.mods.includes(msg.sender.split('@')[0])) {
                 try { 
