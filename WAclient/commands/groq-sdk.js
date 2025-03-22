@@ -20,11 +20,11 @@ function getModel() {
 }
 
 Command({
-    command: 'groq',
+    cmd_name: 'groq',
     category: 'ai',
-    desc: 'Ask GROQ',
-    async execute(msg, { conn }) {
-        if (msg.quoted?.msg?.imageMessage) {
+    desc: 'groqsdk'
+})(async (msg,conn) => {
+if (msg.quoted?.msg?.imageMessage) {
             const media = await msg.quoted.download(); 
             const completion = await groq.chat.completions.create({
                 messages: [
@@ -56,5 +56,4 @@ Command({
 
         const res = v.choices[0]?.msg?.content || 'nah';
         await msg.reply(res);
-    }
-});
+    });
