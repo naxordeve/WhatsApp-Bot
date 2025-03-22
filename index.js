@@ -11,16 +11,15 @@ const fs = require('fs');
 const { MakeSession } = require("./lib/session");
 const path = require('path');
 const config = require('./config');
-const { getCommand } = require('./lib/commands');
-const { plugins } = require('./WAclient/commands'); 
+const { getCommand } = require('./lib/command');
+const { plugins } = require('./WAclient/plugins'); 
 
 const sessionDir= path.join(__dirname, "lib", "auth");
 if (!fs.existsSync(sessionDir)) {
 fs.mkdirSync(sessionDir, { recursive: true });}
-var { session_id } = config;
 const cred = path.join(sessionDir, "creds.json");
 if (!fs.existsSync(cred)) {
-    MakeSession(session_id, cred);
+    MakeSession(config.SESSION_ID, cred);
 }
 
 plugins();
