@@ -1,7 +1,7 @@
 const { Command, getAllCommands } = require('../lib/command');
 const config = require('../lib/config');
 const { getSystemList } = require('../lib/system');
-const { monospace } = require('../lib/utils'); // Import monospace function
+const { monospace } = require('../lib/utils'); 
 
 Command({
     cmd_name: 'menu',
@@ -16,10 +16,18 @@ Command({
     });
 
     const ss = getSystemList();
+    const time = moment().tz('Africa/Johannesburg').format('HH:mm:ss');
+    const date = moment().tz('Africa/Johannesburg').format('YYYY-MM-DD');
+    const ramUsage = (os.totalmem() - os.freemem()) / (1024 * 1024);
     let menu = ss.header
         .replace('{botName}', monospace(config.botName)) 
         .replace('{user}', monospace(msg.sender.split('@')[0]))
-        .replace('{prefix}', monospace(config.prefix.source.replace(/[\^$]/g, '')));
+        .replace('{prefix}', monospace(config.prefix.source.replace(/[\^$]/g, '')))
+        .replace('{time}', time)
+        .replace('{date}', date)
+        .replace('{mode}', config.workType)
+        .replace('{ram}', ramUsage.toFixed(2));
+
 
     Object.entries(c)
         .sort(([a], [b]) => a.localeCompare(b))
