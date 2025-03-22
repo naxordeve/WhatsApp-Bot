@@ -8,21 +8,17 @@ const { Boom } = require('@hapi/boom');
 const pino = require('pino');
 const { serialize } = require('./lib/serialize');
 const fs = require('fs');
-const { MakeSession } = require("./lib/session");
+const { MultiAuth } = require("./lib/session");
 const path = require('path');
 const config = require('./config');
 const { getCommand } = require('./lib/command');
-const { plugins } = require('./WAclient/plugins'); 
+const { plugins } = require('./WAclient/plug-ins'); 
 
 const sessionDir= path.join(__dirname, "lib", "auth");
 if (!fs.existsSync(sessionDir)) {
 fs.mkdirSync(sessionDir, { recursive: true });}
 const cred = path.join(sessionDir, "creds.json");
-if (!fs.existsSync(cred)) {
-    MakeSession(config.SESSION_ID, cred);
-}
-
-plugins();
+if (!fs.existsSync(cred)) { MultiAuth(config.SESSION_ID, cred); 
 
 async function startBot() {
     const { state, saveCreds } = await useMultiFileAuthState(sessionDir);
@@ -40,6 +36,7 @@ async function startBot() {
     conn.ev.on('connection.update', async (update) => {
         const { connection, lastDisconnect } = update;
         if (connection === 'open') {
+            plugins();
             console.log('Bot connected.');
         } else if (connection === 'close') {
             if ((lastDisconnect?.error instanceof Boom)?.output?.statusCode !== DisconnectReason.loggedOut) {
@@ -75,7 +72,7 @@ async function startBot() {
             const command = getCommand(cm);
             if (command) {
                 try { 
-                    await command.callback(msg, msg.args, conn);
+                    await command.callback(msg, conn);
                 } catch (err) {
                     console.error(`${cm}:`, err);
                 }
