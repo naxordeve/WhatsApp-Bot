@@ -14,13 +14,14 @@ Command({
     const apps = await search(query, 1);
         if (apps && apps.length > 0) {
             const app = apps[0];
-            await msg.send(}image: { url: app.icon }, caption: `${monospace('*Name:*'} ${app.name}\n${monospace('*Package:*')} ${app.package}\n${monospace('*Size:*')} ${app.size}\n${monospace('*Version:*')} ${app.version}\n${monospace('*Downloads:*')} ${app.downloads}\n${monospace('*Rating:*')} ${app.rating}`});
+            await msg.send({image: { url: app.icon }, caption: `${monospace('*Name:*'} ${app.name}\n${monospace('*Package:*')} ${app.package}\n${monospace('*Size:*')} ${app.size}\n${monospace('*Version:*')} ${app.version}\n${monospace('*Downloads:*')} ${app.downloads}\n${monospace('*Rating:*')} ${app.rating}`});
             const apkBuffer = await download(app.downloadUrl);
             await msg.send({
                 document: apkBuffer,
                 mimetype: 'application/vnd.android.package-archive',
                 fileName: `${app.name}.apk`
- });
+      });
+});
 
 Command({
     cmd_name: 'fb',
