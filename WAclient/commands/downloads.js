@@ -19,3 +19,21 @@ Command({
             await msg.send({video: Buffer.from(video.data, 'binary'),mimetype: 'video/mp4',caption: `*Quality:* ${qualit}`});
         } 
 });
+
+Command({
+    cmd_name: 'tiktok',
+    category: 'media',
+    desc: 'Download TikTok video'
+})(async (msg, conn) => {
+    const url = msg.text;
+    if (!url) return msg.reply('Please provide ttk url');
+    msg.reply('wait...');
+    const res = await axios.get(`https://diegoson-naxordeve.hf.space/tiktok?url=${url}`);
+    if (res.data && res.data.data) {
+        const data = res.data.data;
+        const voidi = data.hdPlayUrl || data.playUrl;
+        const video = await axios.get(voidi, { responseType: 'arraybuffer' });
+        await msg.send({video: Buffer.from(video.data, 'binary'), mimetype: 'video/mp4', caption: `*Title:* ${data.title}\n*Music:* ${data.musicTitle}\n*By:* ${data.musicAuthor}`
+        });
+    }
+});
