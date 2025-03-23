@@ -9,7 +9,7 @@ Command({
     cmd_name: 'menu',
     category: 'core',
     desc: 'Display command list'
-})(async (msg, args, conn) => {
+})(async (msg, conn) => {
     const commands = getAllCommands();
     const c = {};   
     commands.forEach(cmd => {
@@ -22,12 +22,11 @@ Command({
     const date = moment().tz('Africa/Johannesburg').format('YYYY-MM-DD');
     const ramUsage = (os.totalmem() - os.freemem()) / (1024 * 1024);
     let menu = ss.header
-        .replace('{botName}', monospace(config.botName)) 
-        .replace('{user}', monospace(msg.sender.split('@')[0]))
-        .replace('{prefix}', monospace(config.prefix.source.replace(/[\^$]/g, '')))
+        .replace('{botName}', monospace(config.BOT_NAME)) 
+        .replace('{user}', monospace(msg.pushName))
+        .replace('{prefix}', monospace(config.PREFIX.source.replace(/[\^$]/g, '')))
         .replace('{time}', time)
-        .replace('{date}', date)
-        .replace('{mode}', config.workType)
+        .replace('{mode}', config.WORKTYPE)
         .replace('{ram}', ramUsage.toFixed(2));
 
 
@@ -43,7 +42,7 @@ Command({
             menu += `╰──────────╼\n`;
         });
 
-    menu += `\n${config.footer}`;
+    menu += `\n${config.FOOTER}`;
     await msg.reply(menu);
 });
 
