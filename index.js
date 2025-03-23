@@ -12,13 +12,14 @@ const { MultiAuth } = require("./lib/session");
 const path = require('path');
 const config = require('./config');
 const { getCommand } = require('./lib/command');
-const { plugins } = require('./WAclient/plug-ins'); 
+const { plugins } = require('./WAclient/commands'); 
 
 const sessionDir= path.join(__dirname, "lib", "auth");
 if (!fs.existsSync(sessionDir)) {
 fs.mkdirSync(sessionDir, { recursive: true });}
 const cred = path.join(sessionDir, "creds.json");
-if (!fs.existsSync(cred)) { MultiAuth(config.SESSION_ID, cred); 
+if (!fs.existsSync(cred)) {MultiAuth(config.SESSION_ID, cred);
+}
 
 async function startBot() {
     const { state, saveCreds } = await useMultiFileAuthState(sessionDir);
@@ -50,9 +51,9 @@ async function startBot() {
     
     conn.ev.on('messages.upsert', async (m) => {
         const msg = await serialize(conn, m.messages[0]);
-        const { prefix } = config;
+        const { PREFIX } = config;
         if (msg.body && msg.body.startsWith('$')) {
-            if (msg.fromMe || msg.sender.split('@')[0] === config.owner_num || config.mods.includes(msg.sender.split('@')[0])) {
+            if (msg.fromMe || msg.sender.split('@')[0] === config.OWNER_NUM || config.MODS.includes(msg.sender.split('@')[0])) {
                 try { 
                     let evaled = await eval(msg.body.slice(1));
                     if (typeof evaled !== 'string') evaled = require('util').inspect(evaled);
@@ -65,14 +66,14 @@ async function startBot() {
         } 
         
         else if (msg.body && (typeof prefix === "string" ? msg.body.startsWith(prefix) : prefix.test(msg.body))) {
-            if (config.workType === 'private' && !(msg.fromMe || msg.sender.split('@')[0] === config.owner_num || config.mods.includes(msg.sender.split('@')[0]))) {
+            if (config.workType === 'private' && !(msg.fromMe || msg.sender.split('@')[0] === config.OWNER_NUM || config.MODS.includes(msg.sender.split('@')[0]))) {
                 return;
             }
             const cm = msg.cmd.slice(1);
             const command = getCommand(cm);
             if (command) {
                 try { 
-                    await command.callback(msg, conn);
+                    await command.callback(msg, msg.args, conn);
                 } catch (err) {
                     console.error(`${cm}:`, err);
                 }
@@ -81,5 +82,4 @@ async function startBot() {
     });
 }
 
-startBot();
-            
+startBot(); 
