@@ -1,6 +1,6 @@
-const { Command } = require('../lib/command');
+const { Command } = require('../../lib/command');
 const { exec } = require('child_process');
-const config = require('../config');
+const config = require('../../config');
 
 Command({
     cmd_name: 'install-npm',
