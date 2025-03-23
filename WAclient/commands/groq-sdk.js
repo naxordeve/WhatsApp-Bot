@@ -1,6 +1,6 @@
-const { Command } = require('../lib/command');
+const { Command } = require('../../lib/command');
 const fetch = require('node-fetch');
-var config = require('../config');
+var config = require('../../config');
 
 Command({
     cmd_name: 'groq',
