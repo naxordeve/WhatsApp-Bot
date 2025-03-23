@@ -20,7 +20,8 @@ Command({
                 document: apkBuffer,
                 mimetype: 'application/vnd.android.package-archive',
                 fileName: `${app.name}.apk`
-    });
+ });
+
 Command({
     cmd_name: 'fb',
     category: 'media',
