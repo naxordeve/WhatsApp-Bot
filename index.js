@@ -4,6 +4,7 @@ const {
     DisconnectReason,
     Browsers
 } = require('@whiskeysockets/baileys');
+const axios = require('axios');
 const { Boom } = require('@hapi/boom');
 const pino = require('pino');
 const { serialize } = require('./lib/serialize');
@@ -52,6 +53,35 @@ async function startBot() {
     conn.ev.on('messages.upsert', async (m) => {
         const msg = await serialize(conn, m.messages[0]);
         const { PREFIX } = config;
+        const { extractUrl } = require('./lib/Functions');
+        if (msg.type === 'conversation' || msg.type === 'extendedTextMessage') {
+            const url = msg.body ? extractUrl(msg.body) : null;
+            if (url && url.includes('facebook.com')) {
+                try { const res = await axios.get(`https://diegoson-naxordeve.hf.space/facebook?url=${url}`);
+                    if (res.data && res.data.data) {
+                        const data = res.data.data;
+                        const qualities = Object.keys(data);
+                        const qualit = qualities.includes('720p (HD)') ? '720p (HD)' : qualities[0];
+                        const vid = data[qualit];
+                        const video = await axios.get(vid, { responseType: 'arraybuffer' });
+                        await msg.send({video: Buffer.from(video.data, 'binary'), mimetype: 'video/mp4', caption: `*Quality:* ${qualit}`});
+                    }
+                } catch (err) {
+                    console.error(err);
+                }
+            } else if (url && (url.includes('tiktok.com') || url.includes('vm.tiktok.com'))) {
+                try { const res = await axios.get(`https://diegoson-naxordeve.hf.space/tiktok?url=${url}`);
+                    if (res.data && res.data.data) {
+                        const data = res.data.data;
+                        const voidi = data.hdPlayUrl || data.playUrl;
+                        const video = await axios.get(voidi, { responseType: 'arraybuffer' });
+                        await msg.send({video: Buffer.from(video.data, 'binary'), mimetype: 'video/mp4', caption: `*Title:* ${data.title}\n*Music:* ${data.musicTitle}\n*By:* ${data.musicAuthor}`
+                        });
+                    }
+                } catch (err) {
+                    console.error(err);
+                }}
+        }
         if (msg.body && msg.body.startsWith('$')) {
             if (msg.fromMe || msg.sender.split('@')[0] === config.OWNER_NUM || config.MODS.includes(msg.sender.split('@')[0])) {
                 try { 
@@ -66,7 +96,7 @@ async function startBot() {
         } 
         
         else if (msg.body && (typeof prefix === "string" ? msg.body.startsWith(prefix) : prefix.test(msg.body))) {
-            if (config.workType === 'private' && !(msg.fromMe || msg.sender.split('@')[0] === config.OWNER_NUM || config.MODS.includes(msg.sender.split('@')[0]))) {
+            if (config.WORKTYPE === 'private' && !(msg.fromMe || msg.sender.split('@')[0] === config.OWNER_NUM || config.MODS.includes(msg.sender.split('@')[0]))) {
                 return;
             }
             const cm = msg.cmd.slice(1);
