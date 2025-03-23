@@ -1,10 +1,10 @@
-const { Command } = require('../lib/command');
-const { makeSticker } = require('../lib/Sticker');
-const config = require('../config'); 
+const { Command } = require('../../lib/command');
+const { makeSticker } = require('../../lib/Sticker');
+const config = require('../../config'); 
 
 Command({
     cmd_name: 'sticker',
-    category: 'media',
+    category: 'converter',
     desc: 'Convert image/video to sticker'
 })(async (msg, conn) => {
     const quoted = msg.quoted ? msg.quoted : msg;
@@ -14,15 +14,9 @@ Command({
     const mediaData = await quoted.download();
     let buffer = Buffer.from([]);
     for await (const chunk of mediaData) {
-        buffer = Buffer.concat([buffer, chunk]);
-    }
-
+    buffer = Buffer.concat([buffer, chunk]);}
     const sticker = await makeSticker(buffer, mime);
     if (!sticker) return msg.reply('err');
-    await msg.send({
-        sticker,
-        packname: config.packname,
-        author: config.author 
-    });
+    await msg.send({sticker });
 });
     
