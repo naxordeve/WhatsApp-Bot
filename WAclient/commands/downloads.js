@@ -1,26 +1,37 @@
 const { Command } = require('../../lib/command');
 var { monospace } = require('../../Functions');
-const { search, download } = require('aptoide-api');
-const axios = require('axios');
 
 Command({
     cmd_name: 'apk',
     category: 'media',
-    desc: 'Download APK '
+    desc: 'Download APK'
 })(async (msg, conn) => {
     const query = msg.text;
     if (!query) return msg.reply('_Please provide app name_');
     msg.reply('Searching...');
-    const apps = await search(query, 1);
-        if (apps && apps.length > 0) {
-            const app = apps[0];
-            await msg.send({image: { url: app.icon }, caption: `${monospace('*Name:*'} ${app.name}\n${monospace('*Package:*')} ${app.package}\n${monospace('*Size:*')} ${app.size}\n${monospace('*Version:*')} ${app.version}\n${monospace('*Downloads:*')} ${app.downloads}\n${monospace('*Rating:*')} ${app.rating}`});
-            const apkBuffer = await download(app.downloadUrl);
-            await msg.send({
-                document: apkBuffer,
-                mimetype: 'application/vnd.android.package-archive',
-                fileName: `${app.name}.apk`
-      });
+        const apps = await search(query, 10);
+        if (!apps || apps.length === 0) return;
+        let list = '*Available Apps:*\n\n';
+        apps.forEach((app, i) => {
+            list += `${i + 1}. *${app.name}*\n`;
+            list += `${monospace('Size:')} ${app.size}\n`;
+            list += `${monospace('Version:')} ${app.version}\n`;
+            list += `${monospace('Downloads:')} ${app.downloads}\n\n`;
+        });
+        list += '\n_Reply with the number to download_';
+        await msg.reply(list);
+        Command._ID_NUM(msg.sender, {
+            callback: async (number, message) => {
+                const app = apps[number - 1]
+                    await message.send({image: { url: app.icon }, caption: `${monospace('*Name:*')} ${app.name}\n${monospace('*Package:*')} ${app.package}\n${monospace('*Size:*')} ${app.size}\n${monospace('*Version:*')} ${app.version}\n${monospace('*Downloads:*')} ${app.downloads}\n${monospace('*Rating:*')} ${app.rating}`});
+                    const apkBuffer = await download(app.downloadUrl);
+                    await message.send({document: apkBuffer, mimetype: 'application/vnd.android.package-archive', fileName: `${app.name}.apk`
+                    });
+            },
+            valid: Array.from({length: apps.length}, (_, i) => i + 1),
+            Call: () => msg.reply('time expired'),
+            timeout: 30000
+        });
 });
 
 Command({
