@@ -56,6 +56,8 @@ async function startBot() {
         const msg = await serialize(conn, m.messages[0]);
         const { PREFIX } = config;
         const { extractUrl } = require('./lib/Functions');
+        const { get_flag } = require('./lib/DB/autonum');
+        if (get_flag(msg)) return;
         if (msg.type === 'conversation' || msg.type === 'extendedTextMessage') {
             const url = msg.body ? extractUrl(msg.body) : null;
             if (url && url.includes('facebook.com')) {
