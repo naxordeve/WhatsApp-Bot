@@ -36,3 +36,19 @@ Command({
         await msg.reply('_No response from AI_');
     }
 });
+Command({
+    cmd_name: 'gemini',
+    category: 'ai',
+    desc: 'Chat with Gemini AI'
+})(async (msg, conn) => {
+    const query = msg.text;
+    if (!query) return msg.reply('_Please provide a query_');
+
+    const res = await axios.get(`https://nikka-api.vercel.app/ai/gemini?q=${encodeURIComponent(query)}&apiKey=nikka`);
+
+    if (res.data && res.data.response) {
+        await msg.reply(res.data.response);
+    } else {
+        await msg.reply('_No response from AI_');
+    }
+});
