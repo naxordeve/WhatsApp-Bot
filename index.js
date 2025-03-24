@@ -39,10 +39,12 @@ async function startBot() {
         const { connection, lastDisconnect } = update;
         if (connection === 'open') {
             plugins();
+            const cnds = Object.keys(require('./WAclient/commands')).length;
+            const start_up = `X ASTRAL ONLINE\n\nPLUGINS : ${cnds}\nPREFIX : ${config.PREFIX.source}\nVERSION : 4.0.0`;
+            await conn.sendMessage(conn.user.id, { text: start_up });
             console.log('Bot connected.');
         } else if (connection === 'close') {
             if ((lastDisconnect?.error instanceof Boom)?.output?.statusCode !== DisconnectReason.loggedOut) {
-                console.log("Reconnecting...");
                 startBot();
             }
         }
