@@ -52,3 +52,19 @@ Command({
         await msg.reply('_No response from AI_');
     }
 });
+Command({
+    cmd_name: 'teachme',
+    category: 'AI',
+    desc: 'Get educational responses from TeachMe AI'
+})(async (msg, conn) => {
+    const query = msg.text;
+    if (!query) return msg.reply('_Please provide a query_');
+
+    const res = await axios.get(`https://nikka-api.vercel.app/ai/teachme?q=${encodeURIComponent(query)}&apiKey=nikka`);
+
+    if (res.data && res.data.data && res.data.data.data) {
+        await msg.reply(res.data.data.data);
+    } else {
+        await msg.reply('_No response from AI_');
+    }
+});
