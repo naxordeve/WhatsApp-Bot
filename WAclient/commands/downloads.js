@@ -29,9 +29,7 @@ Command({
                     await message.send({document: apkBuffer, mimetype: 'application/vnd.android.package-archive', fileName: `${app.name}.apk`
                     });
             },
-            valid: Array.from({length: apps.length}, (_, i) => i + 1),
-            Call: () => msg.reply('time expired'),
-            timeout: 30000
+            valid: Array.from({length: apps.length}, (_, i) => i + 1)
         });
 });
 
@@ -61,9 +59,7 @@ Command({
                         await message.send({video: Buffer.from(video.data, 'binary'),mimetype: 'video/mp4',caption: `*Quality:* ${quality}`
                         });
                 },
-                valid: Array.from({length: qualities.length}, (_, i) => i + 1),
-                Call: () => msg.reply('time expired'),
-                timeout: 30000
+                valid: Array.from({length: qualities.length}, (_, i) => i + 1)
             });
         }
 });
