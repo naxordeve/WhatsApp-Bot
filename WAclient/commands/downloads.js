@@ -1,5 +1,6 @@
 const { Command } = require('../../lib/command');
 var { monospace } = require('../../Functions');
+const axios = require('axios');
 
 Command({
     cmd_name: 'apk',
