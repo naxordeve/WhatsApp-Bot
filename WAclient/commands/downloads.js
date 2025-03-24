@@ -38,7 +38,7 @@ Command({
     cmd_name: 'fb',
     category: 'media',
     desc: 'Download Facebook video'
-})(async (msg, conn) => {
+})(async (msg, args, conn) => {
     const url = msg.text;
     if (!url) return msg.reply('_Please provide fb url_');
     msg.reply('wait...');
@@ -46,11 +46,25 @@ Command({
         if (res.data && res.data.data) {
             const data = res.data.data;
             const qualities = Object.keys(data);
-            const qualit = qualities.includes('720p (HD)') ? '720p (HD)' : qualities[0];
-            const vid = data[qualit];
-            const video = await axios.get(vid, { responseType: 'arraybuffer' });
-            await msg.send({video: Buffer.from(video.data, 'binary'),mimetype: 'video/mp4',caption: `*Quality:* ${qualit}`});
-        } 
+            let list = '*Choose Qualities:*\n\n';
+            qualities.forEach((quality, i) => {
+                list += `${i + 1}. ${quality}\n`;
+            });
+            list += '\n_Reply with the number to download_';
+            await msg.reply(list);
+            Command._ID_NUM(msg.sender, {
+                callback: async (number, message) => {
+                    const quality = qualities[number - 1];
+                    const vid = data[quality];
+                        const video = await axios.get(vid, { responseType: 'arraybuffer' });
+                        await message.send({video: Buffer.from(video.data, 'binary'),mimetype: 'video/mp4',caption: `*Quality:* ${quality}`
+                        });
+                },
+                valid: Array.from({length: qualities.length}, (_, i) => i + 1),
+                Call: () => msg.reply('time expired'),
+                timeout: 30000
+            });
+        }
 });
 
 Command({
