@@ -16,15 +16,15 @@ Command({
      const path = require('path');
      const alva = path.join(__dirname, '../../config.js');
      let food = fs.readFileSync(alva, 'utf8');
-        const already = config.MODS.join(',');
-        const go = already + ',' + number;
-        food = food.replace( /MODS: \(process\.env\.MODS \|\| '[^']*'\)\.split\(','\)/, 
-        `MODS: (process.env.MODS || '${go}').split(',')` );
-        fs.writeFileSync(alva, food);
-        config.MODS.push(number);
-        if (msg.quoted) { await msg.reply(`_Marete added @${number} to MODS_`, { mentions: [`${number}@s.whatsapp.net`] });
-        } else { await msg.reply(`_Marete added ${number} to MODS_`);
-      }
+     const already = config.MODS.join(',');
+     const go = already + ',' + number;
+     food = food.replace( /MODS: \(process\.env\.MODS \|\| '[^']*'\)\.split\(','\)/, 
+    `MODS: (process.env.MODS || '${go}').split(',')` );
+     fs.writeFileSync(alva, food);
+     config.MODS.push(number);
+     if (msg.quoted) { await msg.reply(`_Marete added @${number} to MODS_`, { mentions: [`${number}@s.whatsapp.net`] });
+     } else { await msg.reply(`_Marete added ${number} to MODS_`);
+    }
     
 });
 
