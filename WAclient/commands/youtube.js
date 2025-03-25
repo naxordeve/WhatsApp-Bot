@@ -1,6 +1,44 @@
 const { Command } = require('../../lib/command');
 const axios = require('axios');
+var fetch = require('node-fetch');
 const yts = require('yt-search');
+
+Command({
+    cmd_name: 'audio',
+    category: 'media',
+    desc: 'Search and download audio'
+})(async (msg, conn) => {
+    if (!msg.text) return msg.reply('Please provide a search term\nExample: .audio love song');
+    const results = (await yts(msg.text)).videos.slice(0, 20);
+    let list = '*YouTube Search*\n\n';
+    results.forEach((video, i) => {
+        list += `${i + 1}. ${video.title}\n`;
+    });
+    
+    list += '\nReply with number to download';
+    await msg.reply(list);
+
+    Command._ID_NUM(msg.sender, {
+        callback: async (number, message) => {
+            const video = results[number - 1];
+            await msg.reply(`*Downloading ${video.title}...*`);
+            const v = await axios.get(`https://tshepang.vercel.app/download?url=${video.url}`);
+            const aud = v.data.audio['320'];
+            await message.send({audio: { url: aud }, mimetype: 'audio/mp4', fileName: `${video.title}.mp3`,
+                contextInfo: {
+                    externalAdReply: {
+                        title: video.title,
+                        body: video.description,
+                        thumbnail: await (await fetch(video.thumbnail)).buffer(),
+                        mediaType: 1,
+                        mediaUrl: video.url
+                    }
+                }
+            });
+        },
+        valid: Array.from({length: 20}, (_, i) => i + 1)
+    });
+});
 
 Command({
     cmd_name: 'play',
