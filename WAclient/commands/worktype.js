@@ -23,10 +23,8 @@ Command({
             config.WORKTYPE = type;
             const kg = path.join(__dirname, '../../config.js');
             let cmd = fs.readFileSync(kg, 'utf8');
-            cmd = cmd.replace(
-                /WORKTYPE:\s*process\.env\.WORK_TYPE\s*\|\|\s*'[^']*'/,
-                `WORKTYPE: process.env.WORK_TYPE || '${type}'`
-            );
+            cmd = cmd.replace(/WORKTYPE:\s*process\.env\.WORK_TYPE\s*\|\|\s*'[^']*'/,
+            `WORKTYPE: process.env.WORK_TYPE || '${type}'`);
             fs.writeFileSync(kg, cmd);
             await message.reply(`*Worktype changed to:* ${type}`);
         },
