@@ -32,7 +32,19 @@ async function startBot() {
         downloadHistory: false,
         syncFullHistory: false,
         markOnlineOnConnect: false, 
-        generateHighQualityLinkPreview: true
+        generateHighQualityLinkPreview: true,
+        retryRequestDelayMs: 10000,
+        maxRetries: 5,
+        defaultQueryTimeoutMs: 60000,
+        getMessage: async key => {
+            if (store) {
+                const msg = await store.loadMessage(key.remoteJid, key.id)
+                return msg?.message || undefined
+            }
+            return {
+                conversation: ''
+            }
+        }
     });
 
     conn.ev.on('connection.update', async (update) => {
