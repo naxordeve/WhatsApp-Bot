@@ -57,10 +57,10 @@ Command({
         const h = Math.floor(uptime / 3600);
         const m = Math.floor((uptime % 3600) / 60);
         const sec = Math.floor(uptime % 60);
-        var voidi = `*WhatsApp-Bot is alive*\n\n` +
-            `*Uptime:* ${h}h ${m}m ${sec}s\n` +
-            `*Platform:* ${process.platform}\n` +
-            `*Node Version:* ${process.version}`;
+        var voidi = `${monospace('*X ASTRAL ONLINE*')}\n\n` +
+            `${monospace('*Uptime:*')} ${h}h ${m}m ${sec}s\n` +
+            `${monospace('*Platform:*')} ${process.platform}\n` +
+            `${monospace('*Node Version:*')} ${process.version}`;
             
         await msg.reply(voidi);
     });
