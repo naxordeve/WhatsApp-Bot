@@ -17,7 +17,7 @@ Command({
     cmd_name: 'unblock',
     category: 'owner',
     desc: 'Unblock a user'
-})(async (msg) => {
+})(async (msg, conn) => {
     if(!msg.fromMe) return;
     if (!msg.quoted && !msg.text) return msg.reply('Tag someone or reply to their message to unblock them');
     const xxx = msg.quoted ? msg.quoted.sender : msg.text.replace(/[^0-9]/g, '') + '@s.whatsapp.net';
