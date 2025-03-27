@@ -8,7 +8,6 @@ Command({
 })(async (msg, conn) => {
     const url = msg.text;
     if (!url) return msg.reply('_Please provide ttk url_');
-    msg.reply('wait...');
     const res = await axios.get(`https://diegoson-naxordeve.hf.space/tiktok?url=${url}`);
     if (res.data && res.data.data) {
         const data = res.data.data;
