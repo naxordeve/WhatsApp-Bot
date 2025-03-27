@@ -68,7 +68,7 @@ Command({
 });
 
 Command({
-    cmd_name: 'tiktok',
+    cmd_name: 'tik',
     category: 'media',
     desc: 'Download TikTok video'
 })(async (msg, conn) => {
