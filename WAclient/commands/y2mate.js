@@ -4,8 +4,8 @@ const axios = require('axios');
 
 Command({
     cmd_name: 'ytmp3',
-    aliases: ['y2mate'],
-    category: 'downloader',
+    aliases: ['y2mate','yta'],
+    category: 'media',
     desc: 'Download YouTube audio'
 })(async (msg) => {
     var url = extractUrl(msg.text);
