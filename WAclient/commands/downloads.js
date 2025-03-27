@@ -1,5 +1,5 @@
 const { Command } = require('../../lib/command');
-var { monospace } = require('../../Functions');
+var { monospace, extractUrl } = require('../../Functions');
 const axios = require('axios');
 
 Command({
@@ -8,7 +8,9 @@ Command({
     desc: 'Download APK'
 })(async (msg, conn) => {
     const query = msg.text;
-    if (!query) return msg.reply('_Please provide app name_');
+    if (!query && msg.quoted) {
+      query = msg.quoted.message?.conversation || msg.quoted.message?.extendedTextMessage?.text || '';
+    }if (!query) return msg.reply('_Please provide app name_');
     msg.reply('Searching...');
         const apps = await search(query, 10);
         if (!apps || apps.length === 0) return;
@@ -38,9 +40,10 @@ Command({
     category: 'media',
     desc: 'Download Facebook video'
 })(async (msg, args, conn) => {
-    const url = msg.text;
-    if (!url) return msg.reply('_Please provide fb url_');
-    msg.reply('wait...');
+    const url = extractUrl(msg.text);
+    if (!url && msg.quoted) {
+      url = extractUrl(msg.quoted.message?.conversation || msg.quoted.message?.extendedTextMessage?.text || '');
+    }if (!url) return msg.reply('_Please provide fb url_');
         const res = await axios.get(`https://diegoson-naxordeve.hf.space/facebook?url=${url}`);
         if (res.data && res.data.data) {
             const data = res.data.data;
@@ -69,9 +72,10 @@ Command({
     category: 'media',
     desc: 'Download TikTok video'
 })(async (msg, conn) => {
-    const url = msg.text;
-    if (!url) return msg.reply('Please provide ttk url');
-    msg.reply('wait...');
+    const url = extractUrl(msg.text);
+    if (!url && msg.quoted) {
+      url = extractUrl(msg.quoted.message?.conversation || msg.quoted.message?.extendedTextMessage?.text || '');
+    }if (!url) return msg.reply('Please provide ttk url');
     const res = await axios.get(`https://diegoson-naxordeve.hf.space/tiktok?url=${url}`);
     if (res.data && res.data.data) {
         const data = res.data.data;
