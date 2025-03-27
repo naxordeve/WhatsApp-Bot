@@ -1,13 +1,16 @@
 {
-  "name": "nodejs",
+  "name": "whatsapp-bot",
   "version": "4.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "pm2 start index.js --name whatsapp-bot",
+    "stop": "pm2 stop whatsapp-bot",
+    "restart": "pm2 restart whatsapp-bot",
+    "monitor": "pm2 monit",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Diegoson",
   "dependencies": {
     "@hapi/boom": "^10.0.1",
     "@types/node": "^18.0.6",
