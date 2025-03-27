@@ -9,7 +9,9 @@ Command({
     desc: 'Download YouTube audio'
 })(async (msg) => {
     var url = extractUrl(msg.text);
-    if (url) return msg.reply('*_Please provide a YouTube url_*');
+    if (!url && msg.quoted) {
+      url = extractUrl(msg.quoted.message?.conversation || msg.quoted.message?.extendedTextMessage?.text || '');
+   }if (url) return msg.reply('*_Please provide a YouTube url_*');
     const avoidable = `https://diegoson-naxordeve.hf.space/api/download?url=${url}`;
     const res = await axios.get(avoidable);
     const data = res.data;
