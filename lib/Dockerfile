@@ -1,4 +1,4 @@
-FROM node:20-alpin
+FROM node:20-alpine
 COPY package.json .
 RUN npm i --legacy-peer-deps
 COPY . .
