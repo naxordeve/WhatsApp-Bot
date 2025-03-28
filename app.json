@@ -1,0 +1,35 @@
+
+{
+  "name": "whatsapp-bot",
+  "description": "WhatsApp Bot using Baileys",
+  "repository": "https://github.com/yourusername/whatsapp-bot",
+  "logo": "https://node-js-sample.herokuapp.com/node.png",
+  "keywords": ["node", "whatsapp", "bot"],
+  "success_url": "/",
+  "env": {
+    "PREFIX": {
+      "description": "Prefix for bot commands",
+      "value": "/"
+    },
+    "OWNER_NUMBER": {
+      "description": "WhatsApp number of the bot owner",
+      "value": "27686881509"
+    },
+    "BOT_NAME": {
+      "description": "Name of your bot",
+      "value": "X-Astral"
+    },
+    "MONGODB_URI": {
+      "description": "MongoDB connection string",
+      "required": false
+    },
+    "SESSION_ID": {
+      "description": "WhatsApp session ID",
+      "required": true
+    },
+    "WORK_TYPE": {
+      "description": "Bot work type (private/public)",
+      "value": "private"
+    }
+  }
+}
