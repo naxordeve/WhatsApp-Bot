@@ -7,12 +7,8 @@ Command({
     category: 'admin',
     desc: 'Close/mute the group'
 })(async (msg) => {
-    try {
-        const result = await msg.groupClose();
-        await msg.reply(result);
-    } catch (error) {
-        await msg.reply(error.message);
-    }
+    const result = await msg.groupClose();
+    await msg.reply(result);
 });
 
 Command({
@@ -21,12 +17,8 @@ Command({
     category: 'admin',
     desc: 'Open/unmute the group'
 })(async (msg) => {
-    try {
-        const result = await msg.groupOpen();
-        await msg.reply(result);
-    } catch (error) {
-        await msg.reply(error.message);
-    }
+    const result = await msg.groupOpen();
+    await msg.reply(result);
 });
 
 Command({
@@ -34,12 +26,8 @@ Command({
     category: 'admin',
     desc: 'Promote user to admin'
 })(async (msg) => {
-    try {
-        const result = await msg.promote();
-        await msg.reply(result);
-    } catch (error) {
-        await msg.reply(error.message);
-    }
+    const result = await msg.promote();
+    await msg.reply(result);
 });
 
 Command({
@@ -47,12 +35,8 @@ Command({
     category: 'admin',
     desc: 'Demote admin to member'
 })(async (msg) => {
-    try {
-        const result = await msg.demote();
-        await msg.reply(result);
-    } catch (error) {
-        await msg.reply(error.message);
-    }
+  const result = await msg.demote();
+  await msg.reply(result);
 });
 
 Command({
@@ -60,12 +44,8 @@ Command({
     category: 'admin',
     desc: 'Remove member from group'
 })(async (msg) => {
-    try {
-        const result = await msg.kick();
-        await msg.reply(result);
-    } catch (error) {
-        await msg.reply(error.message);
-    }
+    const result = await msg.kick();
+    await msg.reply(result);
 });
 
 Command({
@@ -73,11 +53,10 @@ Command({
     category: 'admin',
     desc: 'Add member to group'
 })(async (msg) => {
-    try {
-        const result = await msg.add();
-        await msg.reply(result);
+    try {const result = await msg.add();
+    await msg.reply(result);
     } catch (error) {
-        await msg.reply(error.message);
+    await msg.reply(error.message);
     }
 });
 
@@ -86,11 +65,10 @@ Command({
     category: 'admin',
     desc: 'Revoke group invite link'
 })(async (msg) => {
-    try {
-        const result = await msg.revoke();
-        await msg.reply(result);
+    try {const result = await msg.revoke();
+    await msg.reply(result);
     } catch (error) {
-        await msg.reply(error.message);
+    await msg.reply(error.message);
     }
 });
 
@@ -100,11 +78,10 @@ Command({
     category: 'group',
     desc: 'Get group invite link'
 })(async (msg) => {
-    try {
-        const result = await msg.getGroupLink();
-        await msg.reply(result);
+    try {const result = await msg.getGroupLink();
+    await msg.reply(result);
     } catch (error) {
-        await msg.reply(error.message);
+    await msg.reply(error.message);
     }
 });
 
@@ -114,7 +91,7 @@ Command({
     category: 'group',
     desc: 'Get group information'
 })(async (msg) => {
-    if (!msg.isGroup) return msg.reply('Not a group');
+    if (!msg.isGroup) return;
     const info = `*Group Info*\n\nName: ${msg.groupName}\nID: ${msg.user}\nMembers: ${msg.groupMembers.length}\nAdmins: ${msg.groupAdmins.length}\nDesc: ${msg.groupDesc}`;
     await msg.reply(info);
 });
