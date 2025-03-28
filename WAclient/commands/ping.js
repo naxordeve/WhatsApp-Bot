@@ -1,5 +1,5 @@
+var { Command } = require('../../lib/command');
 
-const { Command } = require('../../lib/command');
 
 Command({
     cmd_name: 'ping',
@@ -9,5 +9,5 @@ Command({
     const start = Date.now();
     const reply = await msg.reply('ping...');
     const end = Date.now();
-    await reply.edit(`!Pong ${end - start}ms`);
+    await msg.send({ edit: reply.key, text: `!Pong ${end - start}ms` });
 });
