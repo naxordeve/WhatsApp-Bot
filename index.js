@@ -13,7 +13,7 @@ const { MultiAuth } = require("./lib/session");
 const path = require('path');
 const config = require('./config');
 const { getCommand } = require('./lib/command');
-const { plugins } = require('./WAclient/commands');
+const { plugins } = require('./WAclient/plug-ins');
 const { connectDB } = require('./lib/DB/database'); 
 
 const sessionDir= path.join(__dirname, "lib", "auth");
