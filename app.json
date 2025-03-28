@@ -1,10 +1,9 @@
 
 {
   "name": "whatsapp-bot",
-  "description": "WhatsApp Bot using Baileys",
-  "repository": "https://github.com/yourusername/whatsapp-bot",
-  "logo": "https://node-js-sample.herokuapp.com/node.png",
-  "keywords": ["node", "whatsapp", "bot"],
+  "description": "",
+  "repository": "https://github.com/naxordeve/whatsapp-bot",
+  "keywords": ["nodejs", "whatsapp"],
   "success_url": "/",
   "env": {
     "PREFIX": {
@@ -25,6 +24,14 @@
     },
     "SESSION_ID": {
       "description": "WhatsApp session ID",
+      "required": true
+    },
+    "PASTE_BIN_API": {
+      "description": "Your paste key for session id",
+      "required": true
+    },
+    "GROK_API": {
+      "description": "Groq sdk key for ai",
       "required": true
     },
     "WORK_TYPE": {
