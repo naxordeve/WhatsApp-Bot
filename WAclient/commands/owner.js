@@ -9,8 +9,8 @@ Command({
     if (!msg.quoted && !msg.text) return msg.reply('_Tag someone or reply to someone_');
     const xxx = msg.quoted ? msg.quoted.sender : msg.text.replace(/[^0-9]/g, '') + '@s.whatsapp.net';
     await conn.updateBlockStatus(xxx, "block")
-        .then(() => msg.reply('*_Blocked sucss_*'))
-        .catch(() => msg.reply('oops'));
+    .then(() => msg.reply('*_Blocked sucss_*'))
+    .catch(() => msg.reply('oops'));
 });
 
 Command({
@@ -22,7 +22,7 @@ Command({
     if (!msg.quoted && !msg.text) return msg.reply('Tag someone or reply to their message to unblock them');
     const xxx = msg.quoted ? msg.quoted.sender : msg.text.replace(/[^0-9]/g, '') + '@s.whatsapp.net';
     await conn.updateBlockStatus(xxx, "unblock")
-        .then(() => msg.reply('*_Unblocked_*'))
-        .catch(() => msg.reply('oops'));
+    .then(() => msg.reply('*_Unblocked_*'))
+    .catch(() => msg.reply('oops'));
 });
 
