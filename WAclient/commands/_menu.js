@@ -11,10 +11,10 @@ Command({
     desc: 'Display command list'
 })(async (msg, conn) => {
     const commands = getAllCommands();
-    const c = {};   
+    const type = {};   
     commands.forEach(cmd => {
-        if (!c[cmd.category]) c[cmd.category] = [];
-        c[cmd.category].push(cmd);
+        if (!type[cmd.category]) type[cmd.category] = [];
+        type[cmd.category].push(cmd);
     });
 
     const ss = getSystemList();
@@ -30,7 +30,7 @@ Command({
         .replace('{ram}', ramUsage.toFixed(2));
 
 
-    Object.entries(c)
+    Object.entries(type)
         .sort(([a], [b]) => a.localeCompare(b))
         .forEach(([category, cmds]) => {
             menu += `╭───╼【 *${monospace(category.toUpperCase())}* 】 \n`;
@@ -45,22 +45,3 @@ Command({
     menu += `\n${config.FOOTER}`;
     await msg.reply(menu);
 });
-
-
-
-Command({
-    cmd_name: 'alive',
-    category: 'core',
-    desc: 'Check if bot is running',
-})(async(msg) => {
-        const uptime = process.uptime();
-        const h = Math.floor(uptime / 3600);
-        const m = Math.floor((uptime % 3600) / 60);
-        const sec = Math.floor(uptime % 60);
-        var voidi = `${monospace('*X ASTRAL ONLINE*')}\n\n` +
-            `${monospace('*Uptime:*')} ${h}h ${m}m ${sec}s\n` +
-            `${monospace('*Platform:*')} ${process.platform}\n` +
-            `${monospace('*Node Version:*')} ${process.version}`;
-            
-        await msg.reply(voidi);
-    });
