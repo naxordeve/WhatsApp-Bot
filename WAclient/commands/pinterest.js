@@ -1,14 +1,17 @@
 const { Command } = require('../../lib/command');
 const axios = require('axios');
+var { extractUrl } = require('../../lib/Functions');
 
 Command({
     cmd_name: 'pin',
-    aliases: ['pinterest'],
+    aliases: ['pinterest', 'pinter'],
     category: 'media',
     desc: 'Download Pinterest media'
 })(async (msg, conn) => {
-    const url = msg.text;
-    if (!url) return msg.reply('Please provide Pinterest URL');
+    let url = extractUrl(msg.text);
+    if (!url && msg.quoted) {
+      url = extractUrl(msg.quoted.message?.conversation || msg.quoted.message?.extendedTextMessage?.text || '');
+    }if (!url) return msg.reply('Please provide Pinterest URL');
     const res = await axios.get(`https://api.vreden.my.id/api/download/pinterest?url=${url}`);
     if (res.data && res.data.result) {
         const data = res.data.result;
