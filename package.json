@@ -19,6 +19,8 @@
     "pastebin-js": "^1.0.6",
     "@whiskeysockets/baileys": "git+https://github.com/WhiskeySockets/Baileys.git",
     "dotenv": "^16.4.7",
-    "pino": "^9.6.0"
+    "pino": "^9.6.0",
+    "mongoose": "*",
+    "sqlite3": "^5.1.7"
   }
 }
