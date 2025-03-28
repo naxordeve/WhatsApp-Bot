@@ -1,5 +1,5 @@
 const axios = require("axios");
-var { commands } = require("../../lib/commands");
+var { Command } = require("../../lib/command");
 
 Command({
   cmd_name: "deepseek",
