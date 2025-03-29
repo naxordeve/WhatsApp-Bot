@@ -10,7 +10,6 @@
     "monitor": "pm2 monit",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Diegoson",
   "dependencies": {
     "@hapi/boom": "^10.0.1",
     "@types/node": "^18.0.6",
@@ -19,6 +18,7 @@
     "pastebin-js": "^1.0.6",
     "@whiskeysockets/baileys": "git+https://github.com/WhiskeySockets/Baileys.git",
     "dotenv": "^16.4.7",
+    "pm2": "^5.4.3",
     "pino": "^9.6.0",
     "mongoose": "*",
     "sqlite3": "^5.1.7"
