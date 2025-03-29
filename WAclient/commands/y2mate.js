@@ -15,7 +15,7 @@ Command({
     const avoidable = `https://diegoson-naxordeve.hf.space/api/download?url=${url}`;
     const res = await axios.get(avoidable);
     const data = res.data;
-    await msg.reply(`*_Now Playing ${data.title}.._*`);
+    await msg.reply(`*_Now Playing: ${data.title}_*`);
     await msg.send({ audio: { url: data.audio['320'] }, mimetype: 'audio/mpeg', fileName: `${data.title}.mp3`,
     contextInfo: {externalAdReply: { title: data.title, body: `Duration: ${data.duration_time}`, thumbnailUrl: data.thumbnail, sourceUrl: data.youtube_url, mediaType: 1, showAdAttribution: true, renderLargerThumbnail: true
             }
